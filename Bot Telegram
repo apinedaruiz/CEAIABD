@@ -1,0 +1,100 @@
+import json
+from pymongo import MongoClient
+from telegram.ext import Application,ContextTypes, Updater, CommandHandler, MessageHandler, CallbackContext
+from telegram import InputMessageContent, Update
+import datetime
+
+
+
+# defineix una funció que saluda i que s'executarà quan el bot rebi el missatge /start
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Inform user about what this bot can do"""
+
+    await update.message.reply_text(
+        "Benvingut al bot del Mercadona!"
+    )
+    await update.message.reply_text(
+        "Utilitza /help per veure les comandes disponibles"
+    )
+
+
+async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "Utilitza /info <codi> per mostrar el nom del producte i el preu.\n"
+        "Utilitza /photo <codi> per mostrar la foto del producte.\n"
+        "Utilitza /buy <codi> <quantitat> per afegir productes al carrito."
+        )
+
+
+
+async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    codi=context.args[0]
+    codi = str(codi)
+    resposta = dades.find_one({'ID': codi})
+    nom = resposta['nombre']
+    nom_format = nom.encode('utf-8').decode('utf-8')
+    preu = resposta['precio']
+    await update.message.reply_text('Producte: '+nom_format+', Preu: '+preu+'€')
+
+
+async def photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    codi=context.args[0]
+    codi = str(codi)
+    resposta = dades.find_one({'ID': codi})
+    foto = resposta['foto']
+    await context.bot.send_photo(chat_id=update.effective_chat.id, photo=foto)
+                    
+
+async def buy(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    codi=context.args[0]
+    codi = str(codi)
+    quantitat = int(context.args[1])
+    resposta = dades.find_one({'ID': codi})
+    nom = resposta['nombre']
+    nom_format = nom.encode('utf-8').decode('utf-8')
+    usuari_id = update.message.chat_id
+
+    # Si l'usuari no té un carret, inicialitza'l
+    if usuari_id not in carrets:
+        carrets[usuari_id] = {}
+
+    # Afegeix o acumula el producte al carret
+    carret = carrets[usuari_id]
+    if nom_format in carret:
+        carret[nom_format] += quantitat
+    else:
+        carret[nom_format] = quantitat
+
+    await update.message.reply_text('Has afegit '+str(quantitat)+' de '+nom_format)
+    await update.message.reply_text('En total hi ha '+str(carret))
+
+
+def ConnectarBD():
+    client = MongoClient("mongodb+srv://user:password@cluster0.22fdl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+    db = client.supermercats
+    productes = db.productes
+    return productes
+
+
+dades=ConnectarBD()
+carrets = {}
+
+def main():
+    # declara una constant amb el access token que llegeix de token.txt
+    TOKEN = open('./token.txt').read().strip()
+    print(TOKEN)
+
+    application = Application.builder().token(TOKEN).build()
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("help", help))
+    application.add_handler(CommandHandler("info", info))
+    application.add_handler(CommandHandler("photo", photo))
+    application.add_handler(CommandHandler("buy", buy))
+   
+
+    # Run the bot until the user presses Ctrl-C
+    application.run_polling()
+
+
+if __name__ == "__main__":
+    main()
