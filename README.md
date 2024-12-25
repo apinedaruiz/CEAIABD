@@ -1,8 +1,8 @@
 <header>
 
-# Funcionament Bot Telegram
+# Funcionament del MercaBot
 
-En aquest document explicaré com funciona el meu 
+En aquest document explicaré com funciona el nou bot del Mercadona.
 </header>
 
 <!--
