@@ -15,7 +15,20 @@ En aquest document explicaré com funciona el nou bot del Mercadona.
 
 ## Opcions del MercaBot
 ### /start
-_Welcome to "Introduction to GitHub"! :wave:_
+
+Aquesta opció dóna la benvinguda al bot i mostra la següent opció, **/help**.
+
+
+### /help
+
+Aquesta opció t'explica les diferents eines que es poden fer servir.
+
+
+### /info <codi>
+
+En aquesta opció donat un codi de producte et mostra el seu nom i preu. 
+![image](https://github.com/user-attachments/assets/4f4021c0-afad-48f4-885d-167a4deaec16)
+
 
 **What is GitHub?**: GitHub is a collaboration platform that uses _[Git](https://docs.github.com/get-started/quickstart/github-glossary#git)_ for versioning. GitHub is a popular place to share and contribute to [open-source](https://docs.github.com/get-started/quickstart/github-glossary#open-source) software.
 <br>:tv: [Video: What is GitHub?](https://www.youtube.com/watch?v=pBy1zgt0XPc)
