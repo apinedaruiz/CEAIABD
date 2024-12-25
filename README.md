@@ -2,8 +2,7 @@
 
 # Funcionament Bot Telegram
 
-_Get started using GitHub in less than an hour._
-
+En aquest document explicaré com funciona el meu 
 </header>
 
 <!--
