@@ -2,8 +2,6 @@ import json
 from pymongo import MongoClient
 from telegram.ext import Application,ContextTypes, Updater, CommandHandler, MessageHandler, CallbackContext
 from telegram import InputMessageContent, Update
-import datetime
-
 
 
 # defineix una funció que saluda i que s'executarà quan el bot rebi el missatge /start
