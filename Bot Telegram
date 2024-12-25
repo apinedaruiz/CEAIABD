@@ -9,7 +9,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Inform user about what this bot can do"""
 
     await update.message.reply_text(
-        "Benvingut al bot del Mercadona!"
+        "Benvingut! Sóc MercaBot, el nou bot del Mercadona!"
     )
     await update.message.reply_text(
         "Utilitza /help per veure les comandes disponibles"
