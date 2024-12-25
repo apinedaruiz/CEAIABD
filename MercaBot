@@ -1,20 +1,15 @@
-import json
 from pymongo import MongoClient
-from telegram.ext import Application,ContextTypes, Updater, CommandHandler, MessageHandler, CallbackContext
-from telegram import InputMessageContent, Update
-
+from telegram.ext import Application,ContextTypes, CommandHandler
+from telegram import Update
 
 # defineix una funció que saluda i que s'executarà quan el bot rebi el missatge /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Inform user about what this bot can do"""
-
     await update.message.reply_text(
-        "Benvingut! Sóc MercaBot, el nou bot del Mercadona!"
+        "Benvingut! Sóc MercaBot, el nou bot del Mercadona."
     )
     await update.message.reply_text(
         "Utilitza /help per veure les comandes disponibles"
     )
-
 
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
@@ -22,8 +17,6 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Utilitza /photo <codi> per mostrar la foto del producte.\n"
         "Utilitza /buy <codi> <quantitat> per afegir productes al carrito."
         )
-
-
 
 async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     codi=context.args[0]
