@@ -1,0 +1,17 @@
+import gradio as gr
+
+def preguntas(message, history):
+    if message.endswith("?"):
+        return "Por supuesto!"
+    else:
+        return "Intentelo de nuevo, necesito una pregunta. :)"
+
+gr.ChatInterface(
+    preguntas,
+    type="messages",
+    chatbot=gr.Chatbot(height=300),
+    textbox=gr.Textbox(placeholder="Hazme una pregunta de sí o no.", container=False, scale=7),
+    title="Preguntas de Sí o No",
+    description="Preguntame algo!",
+    cache_examples=True,
+).launch()
