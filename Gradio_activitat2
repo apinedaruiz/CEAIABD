@@ -1,0 +1,22 @@
+import gradio as gr
+from transformers import pipeline
+
+
+def traductor(frase1, frase2):
+    pipe_ingles = pipeline("translation", model="Helsinki-NLP/opus-mt-en-es")
+    pipe_espanol = pipeline("translation", model="Helsinki-NLP/opus-mt-es-en")
+    frase_traduida = pipe_ingles(frase1) if frase1 else pipe_espanol(frase2)
+    return frase_traduida[0]['translation_text']  
+
+
+with gr.Blocks() as demo:
+    gr.Markdown("Escribe y pulsa *Traduce* para traducir la frase")
+    with gr.Row():
+        txtIn1 = gr.Textbox(placeholder="Traduce del inglés al español.", label="Inglés-Español")
+        txtIn2 = gr.Textbox(placeholder="Traduce del español al inglés.", label="Español-Inglés")
+        txtOut = gr.Textbox(label="Traducción")
+    btn = gr.Button("Traduce")
+    btn.click(fn=traductor, inputs=[txtIn1, txtIn2], outputs=[txtOut])
+
+
+demo.launch()
